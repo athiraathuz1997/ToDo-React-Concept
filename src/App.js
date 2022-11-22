@@ -1,24 +1,40 @@
-import logo from './logo.svg';
+
+import { useEffect, useState } from 'react';
+import Additem from './Additem';
 import './App.css';
+import Listitem from './Listitem';
 
 function App() {
+  const [tasks,setTask]=useState([]);
+  useEffect(()=>{
+    document.title=`you have ${tasks.length} pending tasks`
+  })
+  const addTask=(title)=>{
+    const newtask=[...tasks,{title}]
+    setTask(newtask)
+  }
+const removetask=(index)=>{
+const del=[...tasks]
+del.splice(index,1)
+setTask(del)
+}
   return (
+    <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h4>ToDo App</h4>
+      <div>
+        <Additem addTask={addTask}/>
+      </div>
+      <div>
+        {
+          tasks.map((task,index)=>(
+            <Listitem task={task} index={index} removetask={removetask} key={index}/>
+            ))
+        }
+        
+      </div>
     </div>
+    </>
   );
 }
 
